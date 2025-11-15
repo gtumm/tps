@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Anagrafica 3.0</title>
+</head>
+<body>
+
+<h2>Inserisci i tuoi dati</h2>
+
+Nome: <input type="text" id="nome"><br><br>
+Cognome: <input type="text" id="cognome"><br><br>
+Indirizzo: <input type="text" id="indirizzo"><br><br>
+Città: <input type="text" id="citta"><br><br>
+
+Sesso:<br>
+<label><input type="radio" name="sesso" value="Maschile" checked> Maschile</label>
+<label><input type="radio" name="sesso" value="Femminile"> Femminile</label>
+<label><input type="radio" name="sesso" value="Altro"> Altro</label>
+<br><br>
+
+Diplomi posseduti:<br>
+<label><input type="checkbox" name="diploma" value="Licenza Media"> Licenza Media</label><br>
+<label><input type="checkbox" name="diploma" value="Diploma"> Diploma</label><br>
+<label><input type="checkbox" name="diploma" value="Laurea"> Laurea</label><br>
+<br>
+
+Provincia (sigla):
+<select id="provincia">
+  <option value="RM">RM</option>
+  <option value="MI">MI</option>
+  <option value="TO">TO</option>
+  <option value="NA">NA</option>
+</select>
+<br><br>
+
+Sport praticati (seleziona più di uno con Ctrl/Cmd):<br>
+<select id="sport" multiple size="5">
+  <option value="Calcio">Calcio</option>
+  <option value="Basket">Basket</option>
+  <option value="Tennis">Tennis</option>
+  <option value="Nuoto">Nuoto</option>
+  <option value="Ciclismo">Ciclismo</option>
+</select>
+<br><br>
+
+<button onclick="mostraDati()">Mostra in tabella (usando oggetto anagrafica)</button>
+
+<div id="risultato"></div>
+
+<script>
+function mostraDati() {
+  const anagrafica = {};
+  anagrafica.nome = document.getElementById('nome').value;
+  anagrafica.cognome = document.getElementById('cognome').value;
+  anagrafica.indirizzo = document.getElementById('indirizzo').value;
+  anagrafica.citta = document.getElementById('citta').value;
+
+  anagrafica.sesso = document.querySelector('input[name="sesso"]:checked').value;
+
+  var diplomi = document.getElementsByName('diploma');
+  anagrafica.diplomi = [];
+  for (var i = 0; i < diplomi.length; i++) {
+    if (diplomi[i].checked) {
+      anagrafica.diplomi.push(diplomi[i].value);
+    }
+  }
+
+  anagrafica.provincia = document.getElementById('provincia').value;
+
+  var sportEl = document.getElementById('sport');
+  anagrafica.sport = [];
+  for (var i = 0; i < sportEl.options.length; i++) {
+    if (sportEl.options[i].selected) {
+      anagrafica.sport.push(sportEl.options[i].value);
+    }
+  }
+
+  var tabella = '<table border="1">'
+    + '<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th><th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>';
+
+  tabella += '<tr>'
+    + '<td>' + anagrafica.nome + '</td>'
+    + '<td>' + anagrafica.cognome + '</td>'
+    + '<td>' + anagrafica.indirizzo + '</td>'
+    + '<td>' + anagrafica.citta + '</td>'
+    + '<td>' + anagrafica.sesso + '</td>'
+    + '<td>' + anagrafica.diplomi.join(', ') + '</td>'
+    + '<td>' + anagrafica.provincia + '</td>'
+    + '<td>' + anagrafica.sport.join(', ') + '</td>'
+    + '</tr>';
+
+  tabella += '</table>';
+
+  document.getElementById('risultato').innerHTML = tabella;
+}
+</script>
+
+</body>
+</html>
