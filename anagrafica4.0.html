@@ -26,7 +26,6 @@ body {
 
 function salva() {
 
-  // Recupero i dati già presenti nello storage
   var archivio = localStorage.getItem("anagrafica");
 
   if (archivio == null) {
@@ -35,7 +34,6 @@ function salva() {
     archivio = JSON.parse(archivio);
   }
 
-  // Creo l'oggetto persona
   var persona = {
     nome: document.getElementById("nome").value,
     cognome: document.getElementById("cognome").value,
@@ -45,10 +43,8 @@ function salva() {
     nazione: document.getElementById("nazione").value
   };
 
-  // Aggiungo la persona all'array
   archivio.push(persona);
 
-  // Salvo tutto nel localStorage
   localStorage.setItem("anagrafica", JSON.stringify(archivio));
 
   alert("Dati salvati correttamente!");
