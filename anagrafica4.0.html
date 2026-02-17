@@ -11,7 +11,10 @@ table, th, td {
   border-collapse: collapse;
   margin-top: 20px;
 }
-th, td { padding: 8px; }
+
+th, td {
+  padding: 8px;
+}
 
 body {
   font-family: Arial;
@@ -23,11 +26,17 @@ body {
 
 function salva() {
 
-  // Recupero eventuali dati già salvati
-  let collection = JSON.parse(localStorage.getItem("anagrafica")) || [];
+  // Recupero i dati già presenti nello storage
+  var archivio = localStorage.getItem("anagrafica");
 
-  // Creo oggetto letterale
-  let persona = {
+  if (archivio == null) {
+    archivio = [];
+  } else {
+    archivio = JSON.parse(archivio);
+  }
+
+  // Creo l'oggetto persona
+  var persona = {
     nome: document.getElementById("nome").value,
     cognome: document.getElementById("cognome").value,
     eta: document.getElementById("eta").value,
@@ -36,58 +45,67 @@ function salva() {
     nazione: document.getElementById("nazione").value
   };
 
-  // Inserisco nella collection
-  collection.push(persona);
+  // Aggiungo la persona all'array
+  archivio.push(persona);
 
-  // Salvo nel localStorage
-  localStorage.setItem("anagrafica", JSON.stringify(collection));
+  // Salvo tutto nel localStorage
+  localStorage.setItem("anagrafica", JSON.stringify(archivio));
 
-  alert("Dati salvati");
+  alert("Dati salvati correttamente!");
 
   document.querySelector("form").reset();
 }
 
+
 function stampa() {
 
-  let dati = JSON.parse(localStorage.getItem("anagrafica"));
+  var archivio = localStorage.getItem("anagrafica");
 
-  if (!dati || dati.length === 0) {
+  if (archivio == null) {
     document.getElementById("risultato").innerHTML = "Nessun dato presente";
     return;
   }
 
-  let tabella = `
-  <table>
-    <tr>
-      <th>Nome</th>
-      <th>Cognome</th>
-      <th>Età</th>
-      <th>Città</th>
-      <th>Provincia</th>
-      <th>Nazione</th>
-    </tr>`;
+  archivio = JSON.parse(archivio);
 
-  dati.forEach(p => {
-    tabella += `
-    <tr>
-      <td>${p.nome}</td>
-      <td>${p.cognome}</td>
-      <td>${p.eta}</td>
-      <td>${p.citta}</td>
-      <td>${p.provincia}</td>
-      <td>${p.nazione}</td>
-    </tr>`;
-  });
+  if (archivio.length == 0) {
+    document.getElementById("risultato").innerHTML = "Nessun dato presente";
+    return;
+  }
+
+  var tabella = "<table>";
+  tabella += "<tr>";
+  tabella += "<th>Nome</th>";
+  tabella += "<th>Cognome</th>";
+  tabella += "<th>Età</th>";
+  tabella += "<th>Città</th>";
+  tabella += "<th>Provincia</th>";
+  tabella += "<th>Nazione</th>";
+  tabella += "</tr>";
+
+  for (var i = 0; i < archivio.length; i++) {
+    tabella += "<tr>";
+    tabella += "<td>" + archivio[i].nome + "</td>";
+    tabella += "<td>" + archivio[i].cognome + "</td>";
+    tabella += "<td>" + archivio[i].eta + "</td>";
+    tabella += "<td>" + archivio[i].citta + "</td>";
+    tabella += "<td>" + archivio[i].provincia + "</td>";
+    tabella += "<td>" + archivio[i].nazione + "</td>";
+    tabella += "</tr>";
+  }
 
   tabella += "</table>";
 
   document.getElementById("risultato").innerHTML = tabella;
 }
 
-function svuotaStorage(){
+
+function svuotaStorage() {
+
   localStorage.removeItem("anagrafica");
-  document.getElementById("risultato").innerHTML="";
-  alert("Archivio cancellato");
+  document.getElementById("risultato").innerHTML = "";
+  alert("Archivio cancellato!");
+
 }
 
 </script>
@@ -124,3 +142,4 @@ function svuotaStorage(){
 
 </body>
 </html>
+
