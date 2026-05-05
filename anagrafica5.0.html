@@ -3,103 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anagrafica 5.0 - Professional</title>
+    <title>Anagrafica 5.0</title>
 
     <style>
-        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
+            font-family: Arial;
             padding: 20px;
-            color: #333;
-        }
-
-        .container { max-width: 900px; margin: 0 auto; }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        h2 { margin-top: 0; color: #1a73e8; border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
         }
 
         input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            display: block;
+            margin-bottom: 8px;
+            padding: 6px;
             font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            border-color: #1a73e8;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
         }
 
         .button-group {
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
+        input[type="button"] {
+            display: inline;
+            margin: 0;
+            padding: 6px 14px;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .btn-primary { background-color: #1a73e8; color: white; }
-        .btn-primary:hover { background-color: #1557b0; }
-
-        .btn-danger { background-color: #ea4335; color: white; }
-        .btn-danger:hover { background-color: #c5221f; }
-
-        .btn-menu { background-color: #5f6368; color: white; margin-bottom: 20px; }
-
-        .table-container {
-            overflow-x: auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: #f8f9fa; color: #5f6368; font-weight: 600; text-transform: uppercase; font-size: 12px; }
-        tr:hover { background-color: #f1f8ff; }
-
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
+        th, td {
+            padding: 8px;
         }
     </style>
 
     <script>
         function validaInput(nome, cognome, cap, email, telefono) {
-            const nomeRegex    = /^[\p{L}'\s-]+$/u;
-            const cognomeRegex = /^[\p{L}'\s-]+$/u;
-            const capRegex     = /^\d{5}$/;
-            const emailRegex   = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const nomeRegex     = /^[\p{L}'\s-]+$/u;
+            const cognomeRegex  = /^[\p{L}'\s-]+$/u;
+            const capRegex      = /^\d{5}$/;
+            const emailRegex    = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             const telefonoRegex = /^\d{10,15}$/;
 
-            if (!nomeRegex.test(nome))       { alert("Nome non valido.");                    return false; }
-            if (!cognomeRegex.test(cognome)) { alert("Cognome non valido.");                 return false; }
-            if (!capRegex.test(cap))         { alert("Il CAP deve essere di 5 numeri.");     return false; }
-            if (!emailRegex.test(email))     { alert("Email non valida.");                   return false; }
+            if (!nomeRegex.test(nome))        { alert("Nome non valido.");                    return false; }
+            if (!cognomeRegex.test(cognome))  { alert("Cognome non valido.");                 return false; }
+            if (!capRegex.test(cap))          { alert("Il CAP deve essere di 5 numeri.");     return false; }
+            if (!emailRegex.test(email))      { alert("Email non valida.");                   return false; }
             if (!telefonoRegex.test(telefono)){ alert("Telefono non valido (10-15 cifre)."); return false; }
 
             return true;
@@ -156,29 +110,22 @@
 </head>
 
 <body>
-<div class="container">
-    <button class="btn-menu" onclick="window.location.href='https://gtumm.github.io/tps/'">← Torna al Menu</button>
+    <h2>Anagrafica 5.0</h2>
 
-    <div class="card">
-        <h2>Aggiungi Nuovo Contatto</h2>
-        <div class="form-grid">
-            <input type="text"  id="nome"      placeholder="Nome * ">
-            <input type="text"  id="cognome"   placeholder="Cognome *">
-            <input type="text"  id="cap"       placeholder="CAP * (5 numeri)">
-            <input type="text"  id="citta"     placeholder="Città">
-            <input type="text"  id="provincia" placeholder="Provincia">
-            <input type="text"  id="nazione"   placeholder="Nazione">
-            <input type="email" id="email"     placeholder="Email *">
-            <input type="text"  id="telefono"  placeholder="Telefono *">
-        </div>
+    <input type="text"  id="nome"      placeholder="Nome *">
+    <input type="text"  id="cognome"   placeholder="Cognome *">
+    <input type="text"  id="cap"       placeholder="CAP * (5 numeri)">
+    <input type="text"  id="citta"     placeholder="Città">
+    <input type="text"  id="provincia" placeholder="Provincia">
+    <input type="text"  id="nazione"   placeholder="Nazione">
+    <input type="email" id="email"     placeholder="Email *">
+    <input type="text"  id="telefono"  placeholder="Telefono *">
 
-        <div class="button-group">
-            <button class="btn-primary" onclick="salvaEStampa()">Salva Contatto</button>
-            <button class="btn-danger"  onclick="resettaTutto()">Svuota Lista</button>
-        </div>
+    <div class="button-group">
+        <input type="button" value="Salva Contatto"  onclick="salvaEStampa()">
+        <input type="button" value="Svuota Lista"    onclick="resettaTutto()">
     </div>
 
-    <div class="table-container" id="stampa"></div>
-</div>
+    <div id="stampa"></div>
 </body>
 </html>
