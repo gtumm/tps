@@ -1,129 +1,184 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Anagrafica 5.0</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagrafica 5.0 - Professional</title>
 
-<style>
-body {padding: 20px; }
-input { margin: 5px 0; padding: 8px; width: 250px; }
-button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
-table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-th, td { border: 1px solid black; padding: 8px; text-align: center; }
-th { background-color: #ddd; }
-</style>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
 
-<script>
-  let elenco=[];
-function validaInput(nome, cognome, cap, citta, email, telefono) {
-  let nomeRegex = /^[a-zA-Z]+$/;
-  let cognomeRegex = /^[a-zA-Z]+$/;
-  let capRegex = /^\d{5}$/;
-  let cittaRegex = /^[a-zA-Z\s]+$/;
-  let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  let telefonoRegex = /^\d{10,15}$/;
+        .container { max-width: 900px; margin: 0 auto; }
 
-  if (!nomeRegex.test(nome)) {
-    alert("Il nome deve contenere solo lettere.");
-    return false;
-  }
-  if (!cognomeRegex.test(cognome)) {
-    alert("Il cognome deve contenere solo lettere.");
-    return false;
-  }
-  if (!capRegex.test(cap)) {
-    alert("Il CAP deve essere composto da 5 numeri.");
-    return false;
-  }
-  if (!cittaRegex.test(citta)) {
-    alert("La città deve contenere solo lettere e spazi.");
-    return false;
-  }
-  if (!emailRegex.test(email)) {
-    alert("L'email non è valida.");
-    return false;
-  }
-  if (!telefonoRegex.test(telefono)) {
-    alert("Il numero di telefono deve contenere solo numeri e avere una lunghezza tra 10 e 15 cifre.");
-    return false;
-  }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
 
-  return true;
-}
+        h2 { margin-top: 0; color: #1a73e8; border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; }
 
-function salvaEStampa() {
-  let nome = document.getElementById("nome").value;
-  let cognome = document.getElementById("cognome").value;
-  let cap = document.getElementById("cap").value;
-  let citta = document.getElementById("citta").value;
-  let provincia = document.getElementById("provincia").value;
-  let nazione = document.getElementById("nazione").value;
-  let email = document.getElementById("email").value;
-  let telefono = document.getElementById("telefono").value;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
 
-  if (!nome || !cognome || !cap || !email || !telefono) {
-    alert("Compila tutti i campi obbligatori.");
-    return;
-  }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
 
-  if (!validaInput(nome, cognome, cap, citta, email, telefono)) {
-    return;
-  }
+        input:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+        }
 
-  let persona = {
-    nome: nome,
-    cognome: cognome,
-    cap: cap,
-    citta: citta,
-    provincia: provincia,
-    nazione: nazione,
-    email: email,
-    telefono: telefono
-  };
+        .button-group {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
 
-  let dati = localStorage.getItem("anagrafica");
-  
-    elenco = JSON.parse(dati);
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
 
-  elenco.push(persona);
-  localStorage.setItem("anagrafica", JSON.stringify(elenco));
+        .btn-primary { background-color: #1a73e8; color: white; }
+        .btn-primary:hover { background-color: #1557b0; }
 
-  let tabella = "<table border='1' cellpadding='3'>" +
-        "<tr><th>Nome</th><th>Cognome</th><th>CAP</th><th>Città</th><th>Provincia</th><th>Nazione</th><th>Email</th><th>Telefono</th></tr>" +
-        "<tr><td>" + nome + "</td><td>" + cognome + "</td><td>" + cap + "</td><td>" + citta + "</td><td>" + provincia + "</td><td>" + nazione + "</td><td>" + email + "</td><td>" + telefono + "</td></tr>" +
-        "</table>";
+        .btn-danger { background-color: #ea4335; color: white; }
+        .btn-danger:hover { background-color: #c5221f; }
 
-  document.getElementById("stampa").innerHTML = tabella;
+        .btn-menu { background-color: #5f6368; color: white; margin-bottom: 20px; }
 
-  document.getElementById("nome").value = "";
-  document.getElementById("cognome").value = "";
-  document.getElementById("cap").value = "";
-  document.getElementById("citta").value = "";
-  document.getElementById("provincia").value = "";
-  document.getElementById("nazione").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("telefono").value = "";
-}
-</script>
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f8f9fa; color: #5f6368; font-weight: 600; text-transform: uppercase; font-size: 12px; }
+        tr:hover { background-color: #f1f8ff; }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script>
+        function validaInput(nome, cognome, cap, email, telefono) {
+            const nomeRegex    = /^[\p{L}'\s-]+$/u;
+            const cognomeRegex = /^[\p{L}'\s-]+$/u;
+            const capRegex     = /^\d{5}$/;
+            const emailRegex   = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const telefonoRegex = /^\d{10,15}$/;
+
+            if (!nomeRegex.test(nome))       { alert("Nome non valido.");                    return false; }
+            if (!cognomeRegex.test(cognome)) { alert("Cognome non valido.");                 return false; }
+            if (!capRegex.test(cap))         { alert("Il CAP deve essere di 5 numeri.");     return false; }
+            if (!emailRegex.test(email))     { alert("Email non valida.");                   return false; }
+            if (!telefonoRegex.test(telefono)){ alert("Telefono non valido (10-15 cifre)."); return false; }
+
+            return true;
+        }
+
+        function salvaEStampa() {
+            const fields = ["nome", "cognome", "cap", "citta", "provincia", "nazione", "email", "telefono"];
+            const data = {};
+            fields.forEach(f => data[f] = document.getElementById(f).value.trim());
+
+            if (!data.nome || !data.cognome || !data.cap || !data.email || !data.telefono) {
+                alert("Compila i campi obbligatori!");
+                return;
+            }
+
+            if (!validaInput(data.nome, data.cognome, data.cap, data.email, data.telefono)) return;
+
+            const elenco = JSON.parse(localStorage.getItem("anagrafica") || "[]");
+            elenco.push(data);
+            localStorage.setItem("anagrafica", JSON.stringify(elenco));
+
+            fields.forEach(f => document.getElementById(f).value = "");
+            stampaTabella();
+        }
+
+        function stampaTabella() {
+            const elenco = JSON.parse(localStorage.getItem("anagrafica") || "[]");
+            const box = document.getElementById("stampa");
+
+            if (elenco.length === 0) {
+                box.innerHTML = "";
+                return;
+            }
+
+            let html = "<table><tr><th>Nome</th><th>Cognome</th><th>CAP</th><th>Città</th><th>Prov.</th><th>Nazione</th><th>Email</th><th>Telefono</th></tr>";
+            elenco.forEach(p => {
+                html += `<tr>
+                    <td>${p.nome}</td><td>${p.cognome}</td><td>${p.cap}</td>
+                    <td>${p.citta}</td><td>${p.provincia}</td><td>${p.nazione}</td>
+                    <td>${p.email}</td><td>${p.telefono}</td>
+                </tr>`;
+            });
+            html += "</table>";
+            box.innerHTML = html;
+        }
+
+        function resettaTutto() {
+            if (confirm("Cancellare tutto?")) {
+                localStorage.removeItem("anagrafica");
+                stampaTabella();
+            }
+        }
+    </script>
 </head>
 
 <body>
-<button onclick="document.location='https://gtumm.github.io/tps/'">Go back to menu</button>
+<div class="container">
+    <button class="btn-menu" onclick="window.location.href='https://gtumm.github.io/HTML/?authuser=0'">← Torna al Menu</button>
 
-<h2>Anagrafica 5.0</h2>
+    <div class="card">
+        <h2>Aggiungi Nuovo Contatto</h2>
+        <div class="form-grid">
+            <input type="text"  id="nome"      placeholder="Nome * ">
+            <input type="text"  id="cognome"   placeholder="Cognome *">
+            <input type="text"  id="cap"       placeholder="CAP * (5 numeri)">
+            <input type="text"  id="citta"     placeholder="Città">
+            <input type="text"  id="provincia" placeholder="Provincia">
+            <input type="text"  id="nazione"   placeholder="Nazione">
+            <input type="email" id="email"     placeholder="Email *">
+            <input type="text"  id="telefono"  placeholder="Telefono *">
+        </div>
 
-<input type="text" id="nome" placeholder="Nome"><br>
-<input type="text" id="cognome" placeholder="Cognome"><br>
-<input type="text" id="cap" placeholder="CAP (5 numeri)"><br>
-<input type="text" id="citta" placeholder="Città"><br>
-<input type="text" id="provincia" placeholder="Provincia"><br>
-<input type="text" id="nazione" placeholder="Nazione"><br>
-<input type="email" id="email" placeholder="Email"><br>
-<input type="text" id="telefono" placeholder="Telefono"><br>
+        <div class="button-group">
+            <button class="btn-primary" onclick="salvaEStampa()">Salva Contatto</button>
+            <button class="btn-danger"  onclick="resettaTutto()">Svuota Lista</button>
+        </div>
+    </div>
 
-<button onclick="salvaEStampa()">Aggiungi e Stampa</button>
-
-<div id="risultato"></div>
-<div id="stampa"></div>
+    <div class="table-container" id="stampa"></div>
+</div>
 </body>
 </html>
